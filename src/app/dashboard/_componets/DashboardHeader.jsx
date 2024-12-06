@@ -6,7 +6,7 @@ function DashboardHeader() {
     <div className="p-5 shadow-sm border-b flex justify-between">
       <div></div>
       <div>
-        <UserButton redirectUrl="/" />
+        <UserButton afterSignOutUrl="/" />
       </div>
     </div>
   );

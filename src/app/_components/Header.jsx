@@ -18,19 +18,21 @@ function Header() {
           width={40}
           height={30}
         />
-        <span className="text-blue-800  font-bold text-xl">Finansmart</span>
+        <Link href={"/"}>
+          <span className="text-blue-800 font-bold text-xl">Finansmart</span>
+        </Link>
       </div>
       {isSignedIn ? (
         <UserButton />
       ) : (
-        <div className="flex gap-3  items-center">
-          <Link href="/dashboard">
+        <div className="flex gap-3 items-center">
+          <Link href={isSignedIn ? "/dashboard" : "/sign-in"}>
             <Button variant="outline" className="rounded-full">
               Dashboard
             </Button>
           </Link>
           <Link href={"/sign-in"}>
-            <Button className="rounded-full">Get started</Button>
+            <Button className="rounded-full">Get Started</Button>
           </Link>
         </div>
       )}

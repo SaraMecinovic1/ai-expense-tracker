@@ -6,14 +6,15 @@ import {
   ReceiptText,
   ShieldCheck,
   CircleDollarSign,
+  CreditCard,
   TrendingUp,
   TrendingDownIcon,
 } from "lucide-react";
+
 import { UserButton } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-
-function SideNavbar() {
+function SideNav() {
   const menuList = [
     {
       id: 1,
@@ -28,49 +29,54 @@ function SideNavbar() {
       path: "/dashboard/incomes",
     },
     {
-      id: 3,
+      id: 2,
       name: "Budgets",
       icon: PiggyBank,
       path: "/dashboard/budgets",
     },
     {
-      id: 4,
+      id: 3,
       name: "Expenses",
       icon: ReceiptText,
       path: "/dashboard/expenses",
     },
+
     {
-      id: 5,
+      id: 4,
       name: "Upgrade",
       icon: ShieldCheck,
       path: "/dashboard/upgrade",
     },
   ];
-
   const path = usePathname();
 
   useEffect(() => {
     console.log(path);
   }, [path]);
-
   return (
     <div className="h-screen p-5 border shadow-sm">
       <div className="flex flex-row items-center">
-        <Image src={"./chart-donut.svg"} alt="logo" width={40} height={25} />
-        <span className="text-blue-800 font-bold text-xl">FinanSmart</span>
+        <CreditCard
+          className="text-blue-800"
+          alt="logo"
+          width={40}
+          height={30}
+        />
+        <Link href={"/"}>
+          <span className="text-blue-800 font-bold text-xl">Finansmart</span>
+        </Link>
       </div>
-
-      <div>
+      <div className="mt-5">
         {menuList.map((menu, index) => (
           <Link href={menu.path} key={index}>
             <h2
               className={`flex gap-2 items-center
-                  text-gray-500 font-medium
-                  mb-2
-                  p-4 cursor-pointer rounded-full
-                  hover:text-primary hover:bg-blue-100
-                  ${path == menu.path && "text-primary bg-blue-100"}
-                  `}
+                    text-gray-500 font-medium
+                    mb-2
+                    p-4 cursor-pointer rounded-full
+                    hover:text-primary hover:bg-blue-100
+                    ${path == menu.path && "text-primary bg-blue-100"}
+                    `}
             >
               <menu.icon />
               {menu.name}
@@ -89,4 +95,4 @@ function SideNavbar() {
   );
 }
 
-export default SideNavbar;
+export default SideNav;
