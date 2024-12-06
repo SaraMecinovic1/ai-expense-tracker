@@ -22,9 +22,9 @@ function Dashboard() {
 
   const getBudgetList = async () => {
     const result = await db
-      .select({
+      .select({  // select-da odaberemo iz koje tabele u bazi zelimo da uzmemo podatke
         ...getTableColumns(Budgets),
-        totalSpend: sql`sum(${Expenses.amount})`.mapWith(Number),
+        totalSpend: sql`sum(${Expenses.amount})`.mapWith(Number), // FARISA PITATI!
         totalItem: sql`count(${Expenses.id})`.mapWith(Number),
       })
       .from(Budgets)
@@ -34,6 +34,22 @@ function Dashboard() {
       .orderBy(desc(Budgets.id));
     setBudgetList(result);
   };
+
+const getAllExpenses=async()=>{
+  const result = await db
+      .select({
+        id: Expenses.id,
+        name: Expenses.name,
+        amount: Expenses.amount,
+        createdAt: Expenses.createdAt,
+      }).from(Budgets)
+      .rightJoin(Expenses, eq(Budgets.id, Expenses.budgetId))
+      .where(eq(Budgets.createdBy, user?.primaryEmailAddress.emailAddress))
+      .orderBy(desc(Expenses.id));
+    setExpensesList(result);
+    getAllExpenses()
+    getIncomeList()
+}
 
 
   return (
