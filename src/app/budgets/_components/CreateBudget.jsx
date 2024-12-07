@@ -27,19 +27,17 @@ function CreateBudget({ refreshData }) {
 
   const { user } = useUser();
 
-  /**
-   * Used to Create New Budget
-   */
+  // create new budget:
   const onCreateBudget = async () => {
     const result = await db
-      .insert(Budgets)
+      .insert(Budgets) // insert-kreira i salje nove podatke
       .values({
         name: name,
         amount: amount,
         createdBy: user?.primaryEmailAddress?.emailAddress,
         icon: emojiIcon,
       })
-      .returning({ insertedId: Budgets.id });
+      .returning({ insertedId: Budgets.id }); // returning-da vrati podatke ako su nam odmah protrebni npr id
 
     if (result) {
       refreshData();
