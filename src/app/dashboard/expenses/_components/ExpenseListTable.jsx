@@ -37,12 +37,6 @@ function ExpenseListTable({ expensesList, refreshData }) {
           >
             Delete
           </h2>
-          {/* <h2>
-            <Trash
-              className="text-red-500 cursor-pointer"
-              onClick={() => deleteExpense(expenses)}
-            />
-          </h2> */}
         </div>
       ))}
     </div>

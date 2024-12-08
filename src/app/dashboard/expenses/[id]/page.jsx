@@ -1,11 +1,11 @@
 "use client";
-import { db } from "@/utils/dbConfig";
-import { Budgets, Expenses } from "@/utils/schema";
+import { db } from "../../../../../utils/dbConfig";
+import { Budgets, Expenses } from "../../../../../utils/schema";
 import { useUser } from "@clerk/nextjs";
 import { desc, eq, getTableColumns, sql } from "drizzle-orm";
 import React, { useEffect, useState } from "react";
 import BudgetItem from "../../budgets/_components/BudgetItem";
-import AddExpense from "../_components/AddExpense";
+import AddExpense from "../_components/addExpenses";
 import ExpenseListTable from "../_components/ExpenseListTable";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Pen, PenBox, Trash } from "lucide-react";
@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import EditBudget from "../_components/EditBudget";
+import EditBudget from "../_components/editBudget";
 
 function ExpensesScreen({ params }) {
   const { user } = useUser();
@@ -53,9 +53,6 @@ function ExpensesScreen({ params }) {
     getExpensesList();
   };
 
-  /**
-   * Get Latest Expenses
-   */
   const getExpensesList = async () => {
     const result = await db
       .select()
@@ -66,9 +63,6 @@ function ExpensesScreen({ params }) {
     console.log(result);
   };
 
-  /**
-   * Used to Delete budget
-   */
   const deleteBudget = async () => {
     const deleteExpenseResult = await db
       .delete(Expenses)

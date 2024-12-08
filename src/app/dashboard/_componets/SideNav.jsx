@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   LayoutGrid,
@@ -15,6 +15,8 @@ import { UserButton } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 function SideNav() {
+  const [isActive, setIsActive] = useState(false);
+
   const menuList = [
     {
       id: 1,
@@ -66,7 +68,7 @@ function SideNav() {
           <span className="text-blue-800 font-bold text-xl">Finansmart</span>
         </Link>
       </div>
-      <div className="mt-5">
+      <div className="mt-7">
         {menuList.map((menu, index) => (
           <Link href={menu.path} key={index}>
             <h2
@@ -85,11 +87,11 @@ function SideNav() {
         ))}
       </div>
       <div
-        className="fixed bottom-10 p-5 flex gap-2
-            items-center"
+        className={`fixed bottom-10 w-[210px] h-[60px] p-5 flex gap-2 items-center  cursor-pointer rounded-full
+          hover:text-primary hover:bg-blue-100 `}
       >
         <UserButton />
-        Profile
+        My Profile
       </div>
     </div>
   );

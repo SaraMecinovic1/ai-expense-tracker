@@ -74,15 +74,15 @@ function Dashboard() {
 
   return (
     <div className="p-8 ">
-      <h2 className="font-bold text-4xl">Hi, {user?.fullName} 👋</h2>
-      <p className="text-gray-500">
+      <h2 className="font-bold text-4xl mb-2">Hi, {user?.fullName} 👋</h2>
+      <p className="text-gray-500 mb-7">
         Here's what happenning with your money, Lets Manage your expense
       </p>
 
       <CardInfo budgetList={budgetList} incomeList={incomeList} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 mt-6 gap-5">
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 mt-5">
           <BarChartDashboard budgetList={budgetList} />
 
           <ExpenseListTable
@@ -91,7 +91,7 @@ function Dashboard() {
           />
         </div>
 
-        <div className="grid gap-5">
+        <div className="grid gap-5 mt-4">
           <h2 className="font-bold text-lg">Latest Budgets</h2>{" "}
           {budgetList?.length > 0
             ? budgetList.map((budget) => (

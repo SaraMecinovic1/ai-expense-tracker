@@ -12,11 +12,11 @@ const getFinancialAdvice = async (totalBudget, totalIncome, totalSpend) => {
         - Total Budget: ${totalBudget} USD 
         - Expenses: ${totalSpend} USD 
         - Incomes: ${totalIncome} USD
-        Provide detailed financial advice in 2 sentence to help the user manage their finances more effectively.
+        Provide detailed financial advice in 2 sentences to help the user manage their finances more effectively.
       `;
 
-    const chartCompletion = openai.chat.completions.create({
-      model: "gpt-4",
+    const chartCompletion = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo-0125",
       messages: [{ role: "user", content: userPrompt }],
     });
 
@@ -29,4 +29,5 @@ const getFinancialAdvice = async (totalBudget, totalIncome, totalSpend) => {
     return "Sorry, I couldn't fetch the financial advice at this moment. Please try again later.";
   }
 };
+
 export default getFinancialAdvice;
