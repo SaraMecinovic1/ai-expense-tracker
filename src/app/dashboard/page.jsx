@@ -7,6 +7,8 @@ import { desc, eq, getTableColumns, sql } from "drizzle-orm";
 import { Budgets, Expenses } from "../../../utils/schema";
 import { index } from "drizzle-orm/mysql-core";
 import BarChartDashboard from "./_componets/BarChartDashboard";
+import ExpenseListTable from "./expenses/_components/ExpenseListTable";
+import BudgetItem from "./budgets/_components/BudgetItem";
 
 function Dashboard() {
   const { user } = useUser();
@@ -50,8 +52,6 @@ function Dashboard() {
       .where(eq(Budgets.createdBy, user?.primaryEmailAddress.emailAddress))
       .orderBy(desc(Expenses.id));
     setExpensesList(result);
-    getAllExpenses();
-    getIncomeList();
   };
 
   const getIncomeList = async () => {
@@ -94,13 +94,13 @@ function Dashboard() {
         <div className="grid gap-5">
           <h2 className="font-bold text-lg">Latest Budgets</h2>{" "}
           {budgetList?.length > 0
-            ? budgetList.map((budget, item) => (
-                <BudgetItem budget={budget} key={index} />
+            ? budgetList.map((budget) => (
+                <BudgetItem budget={budget} key={budget.id} />
               ))
             : [1, 2, 3, 4].map((items, index) => (
                 <div
-                  className="h-[180xp] w-full
-            bg-slate-200 rounded-lg animate-pulse"
+                  key={index}
+                  className="h-[180px] w-full bg-slate-200 rounded-lg animate-pulse"
                 ></div>
               ))}
         </div>
