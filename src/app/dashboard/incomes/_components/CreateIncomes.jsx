@@ -1,7 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { PenBox } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -13,57 +11,55 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import EmojiPicker from "emoji-picker-react";
-import { useUser } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { db } from "../../../../../utils/dbConfig";
-import { Budgets } from "../../../../../utils/schema";
-import { eq } from "drizzle-orm";
+import { Incomes } from "../../../../../utils/schema";
+import { useUser } from "@clerk/nextjs";
 import { toast } from "sonner";
 
-function EditBudget({ budgetInfo, refreshData }) {
-  const [emojiIcon, setEmojiIcon] = useState(budgetInfo?.icon);
+function CreateIncomes({ refreshData }) {
+  const [emojiIcon, setEmojiIcon] = useState("😀");
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
+
   const [name, setName] = useState();
   const [amount, setAmount] = useState();
 
   const { user } = useUser();
 
-  useEffect(() => {
-    if (budgetInfo) {
-      setEmojiIcon(budgetInfo?.icon);
-      setAmount(budgetInfo.amount);
-      setName(budgetInfo.name);
-    }
-  }, [budgetInfo]);
   
-  const onUpdateBudget = async () => {
+  const onCreateIncomes = async () => {
     const result = await db
-      .update(Budgets)
-      .set({
+      .insert(Incomes)
+      .values({
         name: name,
         amount: amount,
+        createdBy: user?.primaryEmailAddress?.emailAddress,
         icon: emojiIcon,
       })
-      .where(eq(Budgets.id, budgetInfo.id))
-      .returning();
+      .returning({ insertedId: Incomes.id });
 
     if (result) {
       refreshData();
-      toast("Budget Updated!");
+      toast("New Income Source Created!");
     }
   };
   return (
     <div>
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="flex space-x-2 gap-2 rounded-full">
-            {" "}
-            <PenBox className="w-4" /> Edit
-          </Button>
+          <div
+            className="bg-slate-100 p-10 rounded-2xl
+            items-center flex flex-col border-2 border-dashed
+            cursor-pointer hover:shadow-md"
+          >
+            <h2 className="text-3xl">+</h2>
+            <h2>Create New Income Source</h2>
+          </div>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Update Budget</DialogTitle>
+            <DialogTitle>Create New Income Source</DialogTitle>
             <DialogDescription>
               <div className="mt-5">
                 <Button
@@ -83,18 +79,16 @@ function EditBudget({ budgetInfo, refreshData }) {
                   />
                 </div>
                 <div className="mt-2">
-                  <h2 className="text-black font-medium my-1">Budget Name</h2>
+                  <h2 className="text-black font-medium my-1">Source Name</h2>
                   <Input
-                    placeholder="e.g. Home Decor"
-                    defaultValue={budgetInfo?.name}
+                    placeholder="e.g. Youtube"
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
                 <div className="mt-2">
-                  <h2 className="text-black font-medium my-1">Budget Amount</h2>
+                  <h2 className="text-black font-medium my-1">Montly Amount</h2>
                   <Input
                     type="number"
-                    defaultValue={budgetInfo?.amount}
                     placeholder="e.g. 5000$"
                     onChange={(e) => setAmount(e.target.value)}
                   />
@@ -106,10 +100,10 @@ function EditBudget({ budgetInfo, refreshData }) {
             <DialogClose asChild>
               <Button
                 disabled={!(name && amount)}
-                onClick={() => onUpdateBudget()}
+                onClick={() => onCreateIncomes()}
                 className="mt-5 w-full rounded-full"
               >
-                Update Budget
+                Create Income Source
               </Button>
             </DialogClose>
           </DialogFooter>
@@ -119,4 +113,4 @@ function EditBudget({ budgetInfo, refreshData }) {
   );
 }
 
-export default EditBudget;
+export default CreateIncomes;
