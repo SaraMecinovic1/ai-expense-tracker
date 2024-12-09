@@ -23,7 +23,14 @@ function Header() {
         </Link>
       </div>
       {isSignedIn ? (
-        <UserButton />
+        <div className="flex gap-3 items-center">
+          <Link href={"/dashboard"}>
+            <Button variant="outline" className="rounded-full">
+              Dashboard
+            </Button>
+          </Link>
+          <UserButton />
+        </div>
       ) : (
         <div className="flex gap-3 items-center">
           <Link href={isSignedIn ? "/dashboard" : "/sign-in"}>

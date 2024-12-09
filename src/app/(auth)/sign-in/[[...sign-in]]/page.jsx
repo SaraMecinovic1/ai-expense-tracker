@@ -37,10 +37,10 @@ export default function Page() {
                 Welcome to Expense Tracker 🦑
               </h1>
 
-              <p className="mt-4 leading-relaxed text-gray-500">
+              {/* <p className="mt-4 leading-relaxed text-gray-500">
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                 Eligendi nam dolorum aliquam, quibusdam aperiam voluptatum.
-              </p>
+              </p> */}
             </div>
 
             <SignIn />
