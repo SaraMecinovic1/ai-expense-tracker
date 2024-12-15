@@ -1,4 +1,7 @@
+"use client";
+import React, { useEffect, useState } from "react";
 import formatNumber from "../../../../utils";
+import getFinancialAdvice from "../../../../utils/getFinacialAdvice";
 import {
   PiggyBank,
   ReceiptText,
@@ -6,8 +9,6 @@ import {
   Sparkles,
   CircleDollarSign,
 } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import getFinancialAdvice from "../../../../utils/getFinacialAdvice";
 
 function CardInfo({ budgetList, incomeList }) {
   const [totalBudget, setTotalBudget] = useState(0);
@@ -16,6 +17,8 @@ function CardInfo({ budgetList, incomeList }) {
   const [financialAdvice, setFinancialAdvice] = useState(""); // ai text
 
   useEffect(() => {
+    console.log("Budget List:", budgetList);
+    console.log("Income List:", incomeList);
     if (budgetList.length > 0 || incomeList.length > 0) {
       CalculateCardInfo(budgetList, incomeList);
     }
@@ -36,19 +39,22 @@ function CardInfo({ budgetList, incomeList }) {
   }, [totalBudget, totalIncome, totalSpend]);
 
   const CalculateCardInfo = () => {
-    console.log(budgetList);
     let totalBudget_ = 0;
     let totalSpend_ = 0;
     let totalIncome_ = 0;
 
-    budgetList.forEach((element) => {
-      totalBudget_ = totalBudget_ + Number(element.amount);
-      totalSpend_ = totalSpend_ + element.totalSpend;
-    });
+    if (budgetList && budgetList.length > 0) {
+      budgetList.forEach((element) => {
+        totalBudget_ += Number(element.amount) || 0;
+        totalSpend_ += element.totalSpend || 0;
+      });
+    }
 
-    incomeList.forEach((element) => {
-      totalIncome_ = totalIncome_ + element.totalAmount;
-    });
+    if (incomeList && incomeList.length > 0) {
+      incomeList.forEach((element) => {
+        totalIncome_ += element.totalAmount || 0;
+      });
+    }
 
     setTotalIncome(totalIncome_);
     setTotalBudget(totalBudget_);
@@ -62,15 +68,8 @@ function CardInfo({ budgetList, incomeList }) {
           <div className="p-7 border mt-4 -mb-1 rounded-2xl flex items-center justify-between">
             <div>
               <div className="flex mb-2 flex-row space-x-1 items-center">
-                <h2 className="text-md ">Finan Smart AI</h2>
-                <Sparkles
-                  className="rounded-full text-white w-10 h-10 p-2
-    bg-gradient-to-r
-    from-pink-500
-    via-red-500
-    to-yellow-500
-    background-animate"
-                />
+                <h2 className="text-md">Finan Smart AI</h2>
+                <Sparkles className="rounded-full text-white w-10 h-10 p-2 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 background-animate" />
               </div>
               <h2 className="font-light text-md">
                 {financialAdvice || "Loading financial advice..."}

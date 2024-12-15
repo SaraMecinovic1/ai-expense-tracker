@@ -33,9 +33,6 @@ function ExpensesScreen({ params }) {
     user && getBudgetInfo();
   }, [user]);
 
-  /**
-   * Get Budget Information
-   */
   const getBudgetInfo = async () => {
     const result = await db
       .select({

@@ -20,6 +20,8 @@ function Dashboard() {
   useEffect(() => {
     if (user) {
       getBudgetList();
+      getIncomeList();
+      getAllExpenses();
     }
   }, [user]);
 
@@ -91,18 +93,20 @@ function Dashboard() {
           />
         </div>
 
-        <div className="grid gap-5 mt-4">
-          <h2 className="font-bold text-lg">Latest Budgets</h2>{" "}
-          {budgetList?.length > 0
-            ? budgetList.map((budget) => (
-                <BudgetItem budget={budget} key={budget.id} />
-              ))
-            : [1, 2, 3, 4].map((items, index) => (
-                <div
-                  key={index}
-                  className="h-[180px] w-full bg-slate-200 rounded-lg animate-pulse"
-                ></div>
-              ))}
+        <div className="mt-4">
+          <h2 className="font-bold text-lg">Latest Budgets</h2>
+          <div className="grid gap-5 mt-4">
+            {budgetList?.length > 0
+              ? budgetList.map((budget) => (
+                  <BudgetItem budget={budget} key={budget.id} />
+                ))
+              : [1, 2, 3, 4].map((items, index) => (
+                  <div
+                    key={index}
+                    className="h-[180px] w-full bg-slate-200 rounded-lg animate-pulse"
+                  ></div>
+                ))}
+          </div>
         </div>
       </div>
     </div>

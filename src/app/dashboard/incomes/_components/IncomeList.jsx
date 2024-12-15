@@ -8,26 +8,34 @@ import { useUser } from "@clerk/nextjs";
 import IncomeItem from "./IncomeItem";
 
 function IncomeList() {
-    
   const [incomelist, setIncomelist] = useState([]);
   const { user } = useUser();
+
   useEffect(() => {
-    user && getIncomelist();
+    if (user) {
+      getIncomelist();
+    }
   }, [user]);
 
   const getIncomelist = async () => {
-    const result = await db
-      .select({
-        ...getTableColumns(Incomes),
-        totalSpend: sql`sum(${Expenses.amount})`.mapWith(Number),
-        totalItem: sql`count(${Expenses.id})`.mapWith(Number),
-      })
-      .from(Incomes)
-      .leftJoin(Expenses, eq(Incomes.id, Expenses.budgetId))
-      .where(eq(Incomes.createdBy, user?.primaryEmailAddress?.emailAddress))
-      .groupBy(Incomes.id)
-      .orderBy(desc(Incomes.id));
-    setIncomelist(result);
+    try {
+      const result = await db
+        .select({
+          ...getTableColumns(Incomes),
+          totalSpend: sql`sum(${Expenses.amount})`.mapWith(Number),
+          totalItem: sql`count(${Expenses.id})`.mapWith(Number),
+        })
+        .from(Incomes)
+        .leftJoin(Expenses, eq(Incomes.id, Expenses.budgetId))
+        .where(eq(Incomes.createdBy, user?.primaryEmailAddress?.emailAddress))
+        .groupBy(Incomes.id)
+        .orderBy(desc(Incomes.id));
+
+      console.log("Total incomes fetched:", result); 
+      setIncomelist(result);
+    } catch (error) {
+      console.error("Error fetching income list:", error);
+    }
   };
 
   return (
