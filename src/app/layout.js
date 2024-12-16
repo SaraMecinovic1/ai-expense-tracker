@@ -8,12 +8,10 @@ export const metadata = {
   title: "Finan Smart ",
   description: "AI powered financial advisor",
 };
-
+const publishableKey = pk_test_ZGVjZW50LWJ1Y2stOS5jbGVyay5hY2NvdW50cy5kZXYk;
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider
-      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-    >
+    <ClerkProvider publishableKey={publishableKey}>
       <html lang="en">
         <body className={outfit.className}>{children}</body>
       </html>
