@@ -4,7 +4,7 @@ import { UserButton, useUser } from "@clerk/nextjs";
 import CardInfo from "./_componets/CardInfo";
 import { db } from "../../../utils/dbConfig";
 import { desc, eq, getTableColumns, sql } from "drizzle-orm";
-import { Budgets, Expenses } from "../../../utils/schema";
+import { Budgets, Expenses, Incomes } from "../../../utils/schema";
 import { index } from "drizzle-orm/mysql-core";
 import BarChartDashboard from "./_componets/BarChartDashboard";
 import ExpenseListTable from "./expenses/_components/ExpenseListTable";
